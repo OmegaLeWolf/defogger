@@ -119,6 +119,7 @@ can do:
 
 ```
 $ ./dcs8000lh-configure.py -h
+
 usage: dcs8000lh-configure.py [-h] [--essid ESSID] [--wifipw WIFIPW]
                               [--survey] [--netconf] [--sysinfo]
                               [--command COMMAND] [--telnetd] [--lighttpd]
@@ -157,6 +158,7 @@ optional arguments:
 
 ```
 $ ./dcs8000lh-configure.py B0:C5:54:AA:BB:CC 123456 --survey
+
 Connecting to B0:C5:54:AA:BB:CC...
 Verifying IPCam service
 Connected to 'DCS-8000LH-BBCC'
@@ -185,6 +187,7 @@ Done.
 
 ```
 $ ./dcs8000lh-configure.py B0:C5:54:AA:BB:CC 123456 --essid Kjellerbod --wifipw redacted
+
 Connecting to B0:C5:54:AA:BB:CC...
 Verifying IPCam service
 Connected to 'DCS-8000LH-BBCC'
@@ -199,6 +202,7 @@ Done.
 
 ```
 $ ./dcs8000lh-configure.py B0:C5:54:AA:BB:CC 123456 --netconf
+
 Connecting to B0:C5:54:AA:BB:CC...
 Verifying IPCam service
 Connected to 'DCS-8000LH-BBCC'
@@ -221,6 +225,7 @@ complete backup of my camera.
    
 ```
 $ ./dcs8000lh-configure.py B0:C5:54:AA:BB:CC 123456 --lighttpd
+
 Connecting to B0:C5:54:AA:BB:CC...
 Verifying IPCam service
 Connected to 'DCS-8000LH-BBCC'
@@ -311,6 +316,7 @@ stream sample:
 
 ```
 $ curl --insecure -u admin:123456 https://192.168.2.37/video/mpegts.cgi>/tmp/stream
+
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
   0 93.1G    0  438k    0     0  92872      0  12d 11h  0:00:04  12d 11h 92853^C
@@ -373,6 +379,7 @@ first check the URL of the wanted profile using the NIPCA API:
 
 ```
 $ curl -u admin:123456 --insecure 'https://192.168.2.37/config/rtspurl.cgi?profileid=1'
+
 profileid=1
 urlentry=live/profile.0
 video_codec=H264
@@ -489,6 +496,7 @@ copying all camera flash partitions to a tftp server:
 
 ```
 $ ./dcs8000lh-configure.py B0:C5:54:AA:BB:CC 123456 --telnetd
+
 Connecting to B0:C5:54:AA:BB:CC...
 Verifying IPCam service
 Connected to 'DCS-8000LH-BBCC'
@@ -506,6 +514,7 @@ Done.
 
 
 $ telnet 192.168.2.37
+
 Trying 192.168.2.37...
 Connected to 192.168.2.37.
 Escape character is '^]'.
@@ -539,6 +548,7 @@ example, going back to v2.02.02:
 
 ```
 $ curl --http1.0 -u admin:123456 --form upload=@DCS-8000LH_Ax_v2.02.02_3014.bin http://192.168.2.37/config/firmwareupgrade.cgi
+
 curl: (52) Empty reply from server
 ```
 
@@ -625,6 +635,7 @@ and you'll get a `rlxboot#` prompt, with access to these U-Boot commands :
 
 ```
 rlxboot# ?
+
 ?       - alias for 'help'
 base    - print or set address offset
 bootm   - boot application image from memory
@@ -672,6 +683,7 @@ over serial, but I don't have the patience for that...
 The environment is fixed and pretty clean:
 ```
 rlxboot# printenv
+
 =3
 addmisc=setenv bootargs ${bootargs}console=ttyS0,${baudrate}panic=1
 baudrate=57600
@@ -1192,6 +1204,7 @@ squasfs file system, with most of the mydlink cloud tools. The file
 system can be unpacked on a Linux system using unsquashfs:
 ```
 $ unsquashfs mtd2
+
 Parallel unsquashfs: Using 4 processors
 15 inodes (22 blocks) to write
 
@@ -1290,6 +1303,7 @@ slot of the DCS-8000LH...
 A few of examples, using curl to read and set configuration variables:
 ```
 $ curl -u admin:123456 http://192.168.2.37/common/info.cgi
+
 model=DCS-8000LH
 product=Wireless Internet Camera
 brand=D-Link
@@ -1332,6 +1346,7 @@ starttime=3.2.0/02:00:00
 stoptime=11.1.0/02:00:00
 
 $ curl -u admin:123456 http://192.168.2.37/config/led.cgi?led=off
+
 led=off
 ```
 
@@ -1375,6 +1390,7 @@ not in /lib. So we have to set LD\_LIBRARY\_PATH to run it manually:
 
 ```
 # LD_LIBRARY_PATH=/var/bluetooth/lib sbin/gen_bt_config update_key_only
+
 In main:182: modelStr = 'DCS-8000LH'
 In main:183: mac = 'b0:c5:54:ab:cd:ef'
 In update_ble_key:87: key data = 'DCS-8000LH-CDEF012345b2gaescrbldchnik'
@@ -1386,6 +1402,7 @@ is `012345`, and the dynamically generated challenge is
 `/tmp/db/db.xml` and can be read directly from there:
 ```
 # grep Key /tmp/db/db.xml |tail -2
+
 <ChallengeKey type="3" content="b2gaescrbldchnik" />
 <Key type="5" content="jrtY6nONQ5rV+2Ph" />
 ```
@@ -1393,8 +1410,10 @@ is `012345`, and the dynamically generated challenge is
 Or you can read them using the same tools the Bluetooth system uses:
 ```
 # tdb get Ble ChallengeKey_ss
+
 b2gaescrbldchnik
 # mdb get ble_key
+
 jrtY6nONQ5rV+2Ph
 ```
 
@@ -1404,6 +1423,7 @@ read the key using tdb too:
 
 ```
 # tdb get Ble Key_ss
+
 jrtY6nONQ5rV+2Ph
 ```
 
@@ -1411,6 +1431,7 @@ Generating the same key by hand on a Linux system is simple:
 
 ```
 $ echo -n 'DCS-8000LH-CDEF012345b2gaescrbldchnik' | md5sum | xxd -r -p | base64 | cut -c-16
+
 jrtY6nONQ5rV+2Ph
 ```
 
@@ -1475,11 +1496,13 @@ The **gattool** Linux command line tool is useful for exploring
 Bluetooth LE devices.  You can look for primary services and list
 associated characteristics of a service:
 ```
-[B0:C5:54:AA:BB:CC][LE]> primary 
+[B0:C5:54:AA:BB:CC][LE]> primary
+
 attr handle: 0x0001, end grp handle: 0x0008 uuid: 00001800-0000-1000-8000-00805f9b34fb
 attr handle: 0x0010, end grp handle: 0x0010 uuid: 00001801-0000-1000-8000-00805f9b34fb
 attr handle: 0x0011, end grp handle: 0x002e uuid: 0000d001-0000-1000-8000-00805f9b34fb
 [B0:C5:54:AA:BB:CC][LE]> characteristics 0x0011
+
 handle: 0x0012, char properties: 0x12, char value handle: 0x0013, uuid: 0000a000-0000-1000-8000-00805f9b34fb
 handle: 0x0015, char properties: 0x0a, char value handle: 0x0016, uuid: 0000a001-0000-1000-8000-00805f9b34fb
 handle: 0x0017, char properties: 0x02, char value handle: 0x0018, uuid: 0000a100-0000-1000-8000-00805f9b34fb
@@ -1612,7 +1635,8 @@ and do not need to know what they mean.
 FWIW, my example setting `M=0;I=Kjellerbod;S=4;E=2`
 is mapped to this wpa_supplicant configuration:
 ```
-# cat /tmp/wpa_supplicant.conf 
+# cat /tmp/wpa_supplicant.conf
+
 ctrl_interface=/var/run/wpa_supplicant
 device_type=4-0050F204-3
 model_name=DCS-8000LH
@@ -1704,7 +1728,8 @@ Looking at the contents of a firmware update from D-Link can be
 demotivating at the beginning:
 
 ```
-$ tar xvf DCS-8000LH_Ax_v2.02.02_3014.bin 
+$ tar xvf DCS-8000LH_Ax_v2.02.02_3014.bin
+
 update.bin.aes
 update.aes
 aes.key.rsa
@@ -1712,6 +1737,7 @@ certificate.info
 sign.sha1.rsa
 
 $ file *
+
 aes.key.rsa:      data
 certificate.info: ASCII text
 sign.sha1.rsa:    data
@@ -1719,6 +1745,7 @@ update.aes:       data
 update.bin.aes:   data
 
 $ ls -l
+
 total 10956
 -rw-r--r-- 1 bjorn bjorn      128 Feb 14 10:58 aes.key.rsa
 -rw-r--r-- 1 bjorn bjorn      130 Feb 14 10:58 certificate.info
@@ -1732,7 +1759,8 @@ encrypted.  The only directly readable file is this one, and it
 doesn't tell us much:
 
 ```
-$ cat certificate.info 
+$ cat certificate.info
+
 Publisher:DMdssdFW1
 Supported Models:DCS-8000LH,DCS-8000LH
 Firmware Version:1.0.0
@@ -1782,6 +1810,7 @@ openssl versions):
 $ openssl rsautl -decrypt -in aes.key.rsa -inkey decrypt.key -out aes.key
 
 $ openssl aes-128-cbc -v -md md5 -kfile aes.key -nosalt -d -in update.bin.aes -out update.bin
+
 bufsize=8192
 *** WARNING : deprecated key derivation used.
 Using -iter or -pbkdf2 would be better.
@@ -1789,6 +1818,7 @@ bytes read   :   936464
 bytes written:   936454
 
 $ openssl aes-128-cbc -v -md md5 -kfile aes.key -nosalt -d -in update.aes -out update
+
 bufsize=8192
 *** WARNING : deprecated key derivation used.
 Using -iter or -pbkdf2 would be better.
@@ -1796,6 +1826,7 @@ bytes read   : 10268368
 bytes written: 10268355
 
 $ file update.bin update
+
 update.bin: POSIX shell script, ASCII text executable
 update:     data
 ```
@@ -1898,6 +1929,7 @@ Rebuilding the example is as easy as typing **make**.  The Makefile is a
 noisy one, so you can see all that's going on:
 ```
 $ make
+
 echo "WARNING: keys/DCS-8000LH-sign.pem is missing - using a new abitrary key instead"
 WARNING: keys/DCS-8000LH-sign.pem is missing - using a new abitrary key instead
 [ -f random-signkey.pem ] || openssl genrsa -out random-signkey.pem
