@@ -272,6 +272,7 @@ update image first.
 
 ```
 $ curl --http1.0 -u admin:123456 --form upload=@fw.tar http://192.168.2.37/config/firmwareupgrade.cgi
+
 upgrade=ok
 ```
 
@@ -719,7 +720,7 @@ Then run the following commands:
 
 `grep -Eq ^admin:x: /etc/passwd && echo "admin:$(pibinfo Pincode)" | chpasswd`
 
-`tdb set HTTPServer Enable_byte=1"`
+`tdb set HTTPServer Enable_byte="1"`
 
 `tdb set HTTPAccount AdminPasswd_ss="$(pibinfo Pincode)"`
 
@@ -727,8 +728,11 @@ Then run the following commands:
 
 on the local machine, run
 
-`$ curl --http1.0 -u admin:CAMPIN --form upload=@DCS-8000LH_Ax_v2.02.02_3014.bin http://CAM.IP/config/firmwareupgrade.cgi
-curl: (52) Empty reply from server`
+`$ curl --http1.0 -u admin:CAMPIN --form upload=@DCS-8000LH_Ax_v2.02.02_3014.bin http://CAM.IP/config/firmwareupgrade.cgi`
+
+The camera should then reply with 
+
+`curl: (52) Empty reply from server`
 
 this will downgrade the firmware to 2.02.02. 
 
